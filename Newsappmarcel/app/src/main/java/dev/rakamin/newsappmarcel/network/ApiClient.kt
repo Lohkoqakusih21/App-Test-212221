@@ -1,17 +1,14 @@
 package dev.rakamin.newsapp.network
 
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
+import dev.rakamin.newsapp.models.NewsResponse
+import retrofit2.Call
+import retrofit2.http.GET
+import retrofit2.http.Query
 
-object ApiClient {
-    private const val BASE_URL = "https://newsapi.org/"
-
-    val instance: NewsService by lazy {
-        val retrofit = Retrofit.Builder()
-            .baseUrl(BASE_URL)
-            .addConverterFactory(GsonConverterFactory.create())
-            .build()
-
-        retrofit.create(NewsService::class.java)
-    }
+interface NewsApiService {
+    @GET("v2/top-headlines")
+    fun getTopHeadlines(
+        @Query("country") country: String = "us",
+        @Query("apiKey") apiKey: String
+    ): Call<NewsResponse>
 }
